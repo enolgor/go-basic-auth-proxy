@@ -1,0 +1,10 @@
+users:
+  eneko: $2a$10$Owvtm8OOkY6MuAZ4m6Yl2u6T1j/9.5ntkbIURdtxVnnDUEMEapjPW
+  other: $2a$10$Owvtm8OOkY6MuAZ4m6Yl2u6T1j/9.5ntkbIURdtxVnnDUEMEapjPW
+
+groups:
+  privileged:
+    - eneko
+  all:
+    - eneko
+    - other
