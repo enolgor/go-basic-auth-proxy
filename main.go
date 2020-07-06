@@ -132,6 +132,7 @@ func handleAuth(authDef *AuthDef, mode int) func(http.ResponseWriter, *http.Requ
 		}
 		userList = append(userList, authDef.GetUserList(groupList...)...)
 		user, pass, ok := req.BasicAuth()
+		log.Printf("Auth request for user: %s", user)
 		if !ok {
 			w.WriteHeader(http.StatusUnauthorized)
 			return
