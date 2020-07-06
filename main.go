@@ -134,6 +134,7 @@ func handleAuth(authDef *AuthDef, mode int) func(http.ResponseWriter, *http.Requ
 		user, pass, ok := req.BasicAuth()
 		if !ok {
 			log.Printf("Auth request for user: %s - not found", user)
+			w.Header().Add("WWW-Authenticate", "Basic realm=\"Restricted\"")
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
@@ -148,6 +149,7 @@ func handleAuth(authDef *AuthDef, mode int) func(http.ResponseWriter, *http.Requ
 			mode == BLACKLIST && userInList ||
 			authDef.AuthUser(user, pass) != nil {
 			log.Printf("Auth request for user: %s - unauthorized", user)
+			w.Header().Add("WWW-Authenticate", "Basic realm=\"Restricted\"")
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
