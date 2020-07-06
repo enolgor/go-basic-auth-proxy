@@ -132,8 +132,8 @@ func handleAuth(authDef *AuthDef, mode int) func(http.ResponseWriter, *http.Requ
 		}
 		userList = append(userList, authDef.GetUserList(groupList...)...)
 		user, pass, ok := req.BasicAuth()
-		log.Printf("Auth request for user: %s", user)
 		if !ok {
+			log.Printf("Auth request for user: %s - not found", user)
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
@@ -147,9 +147,11 @@ func handleAuth(authDef *AuthDef, mode int) func(http.ResponseWriter, *http.Requ
 		if mode == WHITELIST && !userInList ||
 			mode == BLACKLIST && userInList ||
 			authDef.AuthUser(user, pass) != nil {
+			log.Printf("Auth request for user: %s - unauthorized", user)
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
+		log.Printf("Auth request for user: %s - ok", user)
 		w.WriteHeader(http.StatusOK)
 		return
 	}
